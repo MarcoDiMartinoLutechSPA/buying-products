@@ -1,0 +1,69 @@
+<mvc:View controllerName="sap.btp.buyingproducts.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:layout="sap.ui.layout"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar">
+    
+    <f:DynamicPage id="dynamicPage" title="{i18n>title}" showFooter="true">
+        <f:header>
+            <f:DynamicPageHeader>
+                <fb:FilterBar id="filterBar" search="onSearch"  persistencyKey="myPersKey" useToolbar="false">
+                    <fb:filterGroupItems>
+                        <fb:FilterGroupItem groupName="product" name="productName" label="Product Name" visibleInFilterBar="true">
+                            <fb:control>
+                                <Input id="inputProductName"/>
+                            </fb:control>
+                        </fb:FilterGroupItem>
+                    </fb:filterGroupItems>
+                </fb:FilterBar>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table id="productsTable" items="{path: 'productsTableModel>/'}">
+                <headerToolbar>
+                    <Toolbar>
+                        <Button icon="sap-icon://cart" press="onNavigateToView2" type="Transparent"/>
+                        <Text id="cartItemCount" text="{cartModel>/itemCount}" visible="false"/>
+                    </Toolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column>
+                        <Text text="Product Name"/>
+                    </Column>
+                    <Column>
+                        <Text text="Quantity per Unit"/>
+                    </Column>
+                    <Column>
+                        <Text text="Unit Price"/>
+                    </Column>
+                    <Column>
+                        <Text text="Shipping from"/>
+                    </Column>
+                    <Column>
+                        <Text text="Actions"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{productsTableModel>ProductName}"/>
+                            <Text text="{productsTableModel>QuantityPerUnit}"/>
+                            <Text text="{path: 'productsTableModel>UnitPrice', formatter: '.numberFormatter.formatPrice'}"/>
+                            <Text text="{productsTableModel>ShippingFrom}"/>
+                            <HBox>
+                                <Button icon="sap-icon://cart-4" id="addToCart" press="onAddToCart" type="Accept"/>
+                                <Button icon="sap-icon://cart-2" id="removeFromCart" press="onRemoveFromCart" type="Reject" enabled="{productsTableModel>InCart}"/>
+                            </HBox>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>           
+        </f:content>       
+    </f:DynamicPage>
+</mvc:View>
+
